@@ -6,6 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
 
+const input = document.querySelector('input');
 const startButton = document.querySelector('[data-start]');
 const elements = {
   days: document.querySelector('[data-days]'),
@@ -63,6 +64,7 @@ startButton.addEventListener('click', handleClick);
 
 function handleClick(evt) {
   startButton.disabled = true;
+  input.disabled = true;
   const timerInterval = setInterval(() => {
     const currentTime = new Date();
     const timeDifference = userSelectedDate - currentTime;
