@@ -1,38 +1,48 @@
-// import iziToast from 'izitoast';
-// import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
+let delayValue = 0;
 
 const secondsInput = document.querySelector('.delay-input');
-const optionsButtons = document.querySelector('fieldset');
 const submit = document.querySelector('.form');
 
 secondsInput.addEventListener('input', handleInput);
 submit.addEventListener('submit', handleSubmit);
 
 function handleInput(evt) {
-  const inputValue = evt.currentTarget.value;
-  console.log(inputValue);
+  delayValue = evt.currentTarget.value;
 }
-
-const promise = new Promise((resolve, reject) => {
-  // Asynchronous operation
-});
 
 function handleSubmit(evt) {
   evt.preventDefault();
   const form = evt.target;
-  //   const inputValue = form.value;
-  //   console.log(inputValue);
-  const promise = new Promise((resolve, reject) => {
-    const success = form.elements.state.value;
-    const fail = form.elements.state.value;
-  });
-}
+  const state = form.elements.state.value;
 
-promise.then(
-  value => {
-    window.alert('yeees'); // "Success! Value passed to resolve function"
-  },
-  error => {
-    window.alert('nooo'); // "Error! Error passed to reject function"
-  }
-);
+  const delay = delayValue;
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (state === 'fulfilled') {
+        resolve(`Fulfilled promise in ${delay}ms`);
+      } else {
+        reject(`Rejected promise in ${delay}ms`);
+      }
+    }, delay);
+  });
+
+  promise
+    .then(value => {
+      iziToast.success({
+        title: '✅',
+        message: value,
+        position: 'topRight',
+      });
+    })
+    .catch(error => {
+      iziToast.error({
+        title: '❌',
+        message: error,
+        position: 'topRight',
+      });
+    });
+}
